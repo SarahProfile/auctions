@@ -3,19 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TypesController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\AuctionController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\OfferController;
+
 use App\Http\Controllers\BiddingController;
-use App\Http\Controllers\AdsController;
+
 use Illuminate\Support\Facades\App;
-use App\Models\Attempt;
+
 use App\Models\User;
 
 
@@ -36,12 +30,7 @@ use App\Models\User;
 
 
 
-Route::post('upload',function(Request $request){
-     $filename = time().'.'.$request->file->getClientOriginalExtension();
-  $request->file->move(public_path('/uploads'), $filename);
-  
-  return ['name'=>$filename];
-});
+
 
 Route::group([
    // 'middleware' => 'api',
@@ -53,22 +42,8 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [AuthController::class, 'userProfile']);    
 });
-Route::resource('types', 'TypesController');
 
-Route::group([
-   // 'middleware' => 'api',
-    'prefix' => 'category'
-], function ($router) {
-   
-    Route::post('/', [CategoryController::class, 'store']);
-    Route::get('/{id}', [CategoryController::class, 'list']);    
-    Route::get('/details/{id}', [CategoryController::class, 'show']);    
-});
-//Route::resource('category', 'CategoryController');
-//Route::resource('message', 'MessageController');
-Route::resource('country', 'CountryController');
-Route::resource('attribute', 'AttributeController');
-//Route::resource('ads', 'AdsController');
+
 Route::group([
     'prefix' => 'bidding'
 ], function ($router) {
@@ -103,26 +78,5 @@ Route::group([
     
 });
 
-Route::group([
-   // 'middleware' => 'api',
-    'prefix' => 'message'
-], function ($router) {
-   Route::get('/list',[MessageController::class, 'list']);
-   Route::get('/{id}',[MessageController::class, 'show']);
-    
-    Route::post('/',[MessageController::class, 'store']);
-    
-  
-    
-});
 
 
-Route::resource('user', 'UserController');
-Route::resource('role', 'RoleController');
-
-//Route::resource('service', 'ServiceController');
-Route::resource('attempt', 'AttemptController');
-Route::resource('offer', 'OfferController');
-Route::resource('bid', 'BidController');
-Route::resource('design', 'DesignController');
-Route::resource('requirment', 'RequirmentController');
